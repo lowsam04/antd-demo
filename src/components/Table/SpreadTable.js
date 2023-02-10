@@ -1,22 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-const getMaximumSpread = (arr, prop) => {
-  let max = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (max == null || parseInt(arr[i][prop]) > parseInt(max[prop]))
-      max = arr[i];
-  }
-  return max;
-};
-
-const getLowestSpread = (arr, prop) => {
-  const low = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (low == null || parseInt(arr[i][prop]) < parseInt(low[prop]))
-      low = arr[i];
-  }
-  return low;
-};
+import React from "react";
 
 const SpreadTable = (props) => {
   return (

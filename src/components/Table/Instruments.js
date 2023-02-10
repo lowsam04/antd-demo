@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Table, Input } from "antd";
 
 // TODO: Change color table
+const { Search } = Input;
 
 const Instruments = (props) => {
   const [searchText, setSearchedText] = useState();
 
-  const { Search } = Input;
   const columns = [
     {
       title: "Name",

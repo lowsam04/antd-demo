@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Avatar } from "antd";
 
 import Instruments from "../Table/Instruments";
 import SpreadTable from "../Table/SpreadTable";
-import img from "../../constants/img";
+import UserInfo from "./UserInfo";
 import { getUserData } from "../../api/userAPI";
 import { getTableData } from "../../api/tableAPI";
 
-const { Meta } = Card;
-
-const Users = () => {
+const UsersCard = () => {
   const [userData, setUserData] = useState({});
   const [tableData, setTableData] = useState([]);
   const [maxSpread, setMaxSpread] = useState([]);
@@ -30,7 +27,7 @@ const Users = () => {
     const highestSpreadPair = {
       Symbol: sortedData[0].Symbol,
       Spread: sortedData[0].Spread,
-    }; 
+    };
 
     // Get the lowest spread pair
     const lowestSpreadPair = {
@@ -52,33 +49,7 @@ const Users = () => {
       <section id="second-section">
         <div className="container mx-auto px-2">
           <div className="flex gap-6">
-            <Card
-              className="w-1/3 shadow-lg rounded-lg bg-white"
-              cover={<img alt="cover" src={img.maskgroup2} />}
-            >
-              <Meta
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign:'center',
-                }}
-                avatar={<Avatar size={160} src={userData.avatar} />}
-                title={userData.first_name + " " + userData.last_name}
-                description={userData.email}
-              />
-
-              <div className="flex justify-center gap-10 p-10">
-                <Button type="primary" danger size="large">
-                  Connect
-                </Button>
-                <Button type="primary" danger ghost size="large">
-                  Message
-                </Button>
-              </div>
-            </Card>
-
+            <UserInfo userData={userData} />
             <Instruments tableData={tableData} />
             <SpreadTable maxSpread={maxSpread} lowSpread={lowSpread} />
           </div>
@@ -88,4 +59,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersCard;

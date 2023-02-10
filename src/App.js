@@ -3,13 +3,13 @@ import "./App.css";
 import "antd/dist/reset.css";
 
 import DataCard from "./components/Statistic/DataCard";
-import Users from "./components/Users/Users";
+import UsersCard from "./components/Users/UsersCard";
 
 function App() {
   return (
     <>
       <DataCard />
-      <Users />
+      <UsersCard />
     </>
   );
 }
