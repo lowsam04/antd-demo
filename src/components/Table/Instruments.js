@@ -5,7 +5,7 @@ import { Table, Input } from "antd";
 const { Search } = Input;
 
 const Instruments = (props) => {
-  const [searchText, setSearchedText] = useState();
+  const [searchText, setSearchedText] = useState("");
 
   const columns = [
     {
@@ -33,11 +33,15 @@ const Instruments = (props) => {
   ];
 
   const onSearch = (value) => {
-    setSearchedText(value);
+    if (value !== "") {
+      setSearchedText(value);
+    }
   };
 
   const onChange = (e) => {
-    setSearchedText(e.target.value);
+    if (e !== "") {
+      setSearchedText(e.target.value);
+    }
   };
 
   return (
