@@ -20,8 +20,9 @@ const UsersCard = () => {
   const tableAPI = async () => {
     const res = await getTableData();
     setTableData(res);
+
     // Sort the data based on the spread value
-    const sortedData = res.sort((a, b) => b.Spread - a.Spread);
+    const sortedData = tableData.sort((a, b) => b.Spread - a.Spread);
 
     // Get the highest spread pair
     const highestSpreadPair = {
@@ -42,7 +43,7 @@ const UsersCard = () => {
   useEffect(() => {
     userAPI();
     tableAPI();
-  }, []);
+  }, [tableData]);
 
   return (
     <>

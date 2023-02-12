@@ -5,11 +5,22 @@ import { Table, Input } from "antd";
 const { Search } = Input;
 
 const Instruments = (props) => {
+  const [tableData, setTableData] = useState(props.tableData);
   const [searchText, setSearchedText] = useState("");
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // reload data here
+      setTableData(props.tableData);
+      console.log("Table Data reloaded~~~~~~~~");
+    }, 2000);
+    return () => clearInterval(intervalId);
+  }, [props.tableData]);
 
   const columns = [
     {
       title: "Name",
+      key: "name",
       dataIndex: "Symbol",
       filteredValue: [searchText],
       onFilter: (value, record) => {
@@ -21,14 +32,32 @@ const Instruments = (props) => {
     {
       title: "Sell",
       dataIndex: "Bid",
+      key: "bid",
     },
     {
       title: "Buy",
       dataIndex: "Ask",
+      key: "ask",
     },
     {
       title: "Charge",
       dataIndex: "Spread",
+      key: "spread",
+      render: (spread, record) => {
+        const latestSpread = tableData[0].spread;
+        const spreadDifference = latestSpread - spread;
+        const textColor =
+          spreadDifference > 0
+            ? 'green'
+            : spreadDifference < 0
+            ? 'red'
+            : 'black';
+        return (
+          <span style={{ color: textColor }}>
+            {spread}
+          </span>
+        );
+      },
     },
   ];
 
@@ -60,7 +89,7 @@ const Instruments = (props) => {
             />
           </div>
         </div>
-        <Table dataSource={props.tableData} columns={columns} />
+        <Table dataSource={tableData} columns={columns} />
       </div>
     </>
   );
