@@ -11,16 +11,37 @@ const UsersCard = () => {
   const [tableData, setTableData] = useState([]);
   const [maxSpread, setMaxSpread] = useState([]);
   const [lowSpread, setLowSpread] = useState([]);
+  const [currentBidPrice, setCurrentBidPrice] = useState([]);
+  const [previousBidPrice, setPreviousBidPrice] = useState([]);
+  const [currentSellPrice, setCurrentSellPrice] = useState([]);
+  const [previousSellPrice, setPreviousSellPrice] = useState([]);
 
   const userAPI = async () => {
-    const res = await getUserData();
+    let res = await getUserData();
     setUserData(res.data[1]);
   };
 
   const tableAPI = async () => {
-    const res = await getTableData();
-    setTableData(res);
+    let res = await getTableData();
+    console.log('from res');
+    console.log (res);
 
+    setTableData();
+    console.log('from setTableData');
+    console.log (tableData);
+
+    // ======================================Part 3 (Getiing current buy and sell array dataset)=================================================
+    // get current bid array
+    let bidArray = res.map((Data) => Data.Bid);
+    // console.log(bidArray);
+    setCurrentBidPrice(bidArray);
+
+    // get current sell array
+    let sellArray = res.map((Data) => Data.Sell);
+    setCurrentSellPrice(...sellArray);
+
+    
+    // ======================================Part 4 (Getiing highest and lowest spread pair)====================================================
     // Sort the data based on the spread value
     const sortedData = tableData.sort((a, b) => b.Spread - a.Spread);
 
@@ -42,8 +63,18 @@ const UsersCard = () => {
 
   useEffect(() => {
     userAPI();
-    tableAPI();
-  }, [tableData]);
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      tableAPI();
+      // console.log(tableData);
+      // console.log(currentBidPrice);
+      
+
+    }, 2000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <>

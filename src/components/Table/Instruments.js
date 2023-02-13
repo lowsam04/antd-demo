@@ -5,17 +5,8 @@ import { Table, Input } from "antd";
 const { Search } = Input;
 
 const Instruments = (props) => {
-  const [tableData, setTableData] = useState(props.tableData);
   const [searchText, setSearchedText] = useState("");
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // reload data here
-      setTableData(props.tableData);
-      console.log("Table Data reloaded~~~~~~~~");
-    }, 2000);
-    return () => clearInterval(intervalId);
-  }, [props.tableData]);
 
   const columns = [
     {
@@ -44,7 +35,7 @@ const Instruments = (props) => {
       dataIndex: "Spread",
       key: "spread",
       render: (spread, record) => {
-        const latestSpread = tableData[0].spread;
+        const latestSpread = props.tableData[0].spread;
         const spreadDifference = latestSpread - spread;
         const textColor =
           spreadDifference > 0
@@ -89,7 +80,7 @@ const Instruments = (props) => {
             />
           </div>
         </div>
-        <Table dataSource={tableData} columns={columns} />
+        <Table dataSource={props.tableData} columns={columns} />
       </div>
     </>
   );
