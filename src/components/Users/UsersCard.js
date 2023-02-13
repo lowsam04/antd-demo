@@ -22,11 +22,11 @@ const UsersCard = () => {
   };
 
   const tableAPI = async () => {
-    let res = await getTableData();
+    const res = await getTableData();
     console.log('from res');
     console.log (res);
 
-    setTableData();
+    setTableData(res);
     console.log('from setTableData');
     console.log (tableData);
 
