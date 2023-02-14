@@ -8,13 +8,13 @@ import { getTableData } from "../../api/tableAPI";
 
 const UsersCard = () => {
   const [userData, setUserData] = useState({});
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState(null);
   const [maxSpread, setMaxSpread] = useState([]);
   const [lowSpread, setLowSpread] = useState([]);
   const [currentBidPrice, setCurrentBidPrice] = useState([]);
   const [previousBidPrice, setPreviousBidPrice] = useState([]);
-  const [currentSellPrice, setCurrentSellPrice] = useState([]);
-  const [previousSellPrice, setPreviousSellPrice] = useState([]);
+  const [currentAskPrice, setCurrentAskPrice] = useState([]);
+  const [previousAskPrice, setPreviousAskPrice] = useState([]);
 
   const userAPI = async () => {
     let res = await getUserData();
@@ -23,24 +23,21 @@ const UsersCard = () => {
 
   const tableAPI = async () => {
     const res = await getTableData();
-    console.log('from res');
-    console.log (res);
-
     setTableData(res);
-    console.log('from setTableData');
-    console.log (tableData);
 
-    // ======================================Part 3 (Getiing current buy and sell array dataset)=================================================
+    // ======================================Part 3 (Getiing current bid and ask array dataset)=================================================
     // get current bid array
     let bidArray = res.map((Data) => Data.Bid);
-    // console.log(bidArray);
     setCurrentBidPrice(bidArray);
+    // console.log('this is bidArray');
+    // console.log(bidArray);
 
     // get current sell array
-    let sellArray = res.map((Data) => Data.Sell);
-    setCurrentSellPrice(...sellArray);
+    let askArray = res.map((Data) => Data.Ask);
+    setCurrentAskPrice(askArray);
+    // console.log('this is askArray');
+    // console.log(askArray);
 
-    
     // ======================================Part 4 (Getiing highest and lowest spread pair)====================================================
     // Sort the data based on the spread value
     const sortedData = tableData.sort((a, b) => b.Spread - a.Spread);
@@ -68,22 +65,31 @@ const UsersCard = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       tableAPI();
-      // console.log(tableData);
-      // console.log(currentBidPrice);
-      
-
-    }, 2000);
+      setPreviousBidPrice(currentBidPrice);
+      setPreviousAskPrice(currentAskPrice);
+    }, 1000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [tableData]);
 
   return (
     <>
       <section id="second-section">
-        <div className="container mx-auto px-2">
-          <div className="flex gap-6">
-            <UserInfo userData={userData} />
-            <Instruments tableData={tableData} />
-            <SpreadTable maxSpread={maxSpread} lowSpread={lowSpread} />
+        <div className="container mx-auto px-2 ">
+          <div className="flex gap-6 max-[414px]:flex-col">
+            <UserInfo userData={userData} className="w-1/3" />
+            <Instruments
+              className="w-1/2"
+              tableData={tableData}
+              currentBidPrice={currentBidPrice}
+              previousBidPrice={previousBidPrice}
+              currentAskPrice={currentAskPrice}
+              previousAskPrice={previousAskPrice}
+            />
+            <SpreadTable
+              className="w-1/3"
+              maxSpread={maxSpread}
+              lowSpread={lowSpread}
+            />
           </div>
         </div>
       </section>

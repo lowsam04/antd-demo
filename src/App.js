@@ -2,13 +2,13 @@ import React from "react";
 import "./App.css";
 import "antd/dist/reset.css";
 
-import DataCard from "./components/Statistic/DataCard";
+import StatisticCard from "./components/Statistic/StatisticCard";
 import UsersCard from "./components/Users/UsersCard";
 
 function App() {
   return (
     <>
-      <DataCard />
+      <StatisticCard/>
       <UsersCard />
     </>
   );

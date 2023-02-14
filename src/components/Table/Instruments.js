@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Table, Input } from "antd";
+import React, { useState } from "react";
+import { Table, Input, Skeleton } from "antd";
+import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 
 // TODO: Change color table
 const { Search } = Input;
 
 const Instruments = (props) => {
   const [searchText, setSearchedText] = useState("");
-
-
   const columns = [
     {
       title: "Name",
@@ -21,34 +20,51 @@ const Instruments = (props) => {
       },
     },
     {
-      title: "Sell",
+      title: "Buy",
       dataIndex: "Bid",
       key: "bid",
+      render: (text, record, index) => {
+        //text = value, record = row, index
+        // console.log("index");
+        // console.log(props.currentBidPrice[index]);
+        // console.log(record);
+        const curr = props.currentBidPrice[index];
+        const prev = props.previousBidPrice[index];
+        const textColor = curr >= prev ? "green" : "red";
+        return (
+          <span style={{ color: textColor }}>
+            {curr >= prev ? <CaretUpOutlined /> : <CaretDownOutlined />}{" "}
+            {Math.round(curr * 100) / 100}
+          </span>
+        );
+        // return <span style={{ color: textColor }}>{props.currentBidPrice[index]}</span>;
+      },
     },
     {
-      title: "Buy",
+      title: "Sell",
       dataIndex: "Ask",
       key: "ask",
+      render: (text, record, index) => {
+        //text value, record row, index
+        // console.log("index");
+        // console.log(props.currentAskPrice[index]);
+        const curr = props.currentAskPrice[index];
+        const prev = props.previousAskPrice[index];
+        const textColor = curr >= prev ? "green" : "red";
+        console.log();
+        return (
+          <span style={{ color: textColor }}>
+            {curr >= prev ? <CaretUpOutlined /> : <CaretDownOutlined />}
+            {Math.round(curr * 100) / 100}
+          </span>
+        );
+        // return <span style={{ color: textColor }}>{props.currentBidPrice[index]}</span>;
+      },
     },
     {
       title: "Charge",
       dataIndex: "Spread",
       key: "spread",
-      render: (spread, record) => {
-        const latestSpread = props.tableData[0].spread;
-        const spreadDifference = latestSpread - spread;
-        const textColor =
-          spreadDifference > 0
-            ? 'green'
-            : spreadDifference < 0
-            ? 'red'
-            : 'black';
-        return (
-          <span style={{ color: textColor }}>
-            {spread}
-          </span>
-        );
-      },
     },
   ];
 
@@ -66,12 +82,12 @@ const Instruments = (props) => {
 
   return (
     <>
-      <div className="w-1/3 shadow-lg rounded-lg bg-white">
+      <div className="w-1/2 shadow-lg rounded-lg bg-white max-[414px]:w-full" >
         <div className="flex justify-between p-4">
           <h2 className="text-2xl font-bold">Instruments</h2>
           <div className="p-2">
             <Search
-              placeholder="input search text"
+              placeholder="Search"
               onSearch={onSearch}
               onChange={onChange}
               style={{
@@ -80,7 +96,35 @@ const Instruments = (props) => {
             />
           </div>
         </div>
-        <Table dataSource={props.tableData} columns={columns} />
+        {!props.tableData ? (
+          <Skeleton
+            style={{
+              width: "90%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "1rem",
+            }}
+            active
+            title={false}
+            paragraph={{
+              rows: 14,
+            }}
+          />
+        ) : (
+          <Table
+            dataSource={props.tableData}
+            columns={columns}
+            style={{
+              width: "90%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "1rem",
+            }}
+            active
+            tableLayout="fixed"
+            size="small"
+          />
+        )}
       </div>
     </>
   );
