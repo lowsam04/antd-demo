@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Table, Input, Skeleton } from "antd";
 import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
 
-// TODO: Change color table
 const { Search } = Input;
 
 const Instruments = (props) => {
@@ -37,7 +36,6 @@ const Instruments = (props) => {
             {Math.round(curr * 100) / 100}
           </span>
         );
-        // return <span style={{ color: textColor }}>{props.currentBidPrice[index]}</span>;
       },
     },
     {
@@ -45,9 +43,6 @@ const Instruments = (props) => {
       dataIndex: "Ask",
       key: "ask",
       render: (text, record, index) => {
-        //text value, record row, index
-        // console.log("index");
-        // console.log(props.currentAskPrice[index]);
         const curr = props.currentAskPrice[index];
         const prev = props.previousAskPrice[index];
         const textColor = curr >= prev ? "green" : "red";
@@ -58,7 +53,6 @@ const Instruments = (props) => {
             {Math.round(curr * 100) / 100}
           </span>
         );
-        // return <span style={{ color: textColor }}>{props.currentBidPrice[index]}</span>;
       },
     },
     {
@@ -82,7 +76,7 @@ const Instruments = (props) => {
 
   return (
     <>
-      <div className="w-1/2 shadow-lg rounded-lg bg-white max-[414px]:w-full" >
+      <div className="w-1/2 shadow-lg rounded-lg bg-white max-[414px]:w-full">
         <div className="flex justify-between p-4">
           <h2 className="text-2xl font-bold">Instruments</h2>
           <div className="p-2">
