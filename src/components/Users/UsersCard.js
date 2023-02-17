@@ -40,7 +40,8 @@ const UsersCard = () => {
 
     // ======================================Part 4 (Getiing highest and lowest spread pair)====================================================
     // Sort the data based on the spread value
-    const sortedData = tableData.sort((a, b) => b.Spread - a.Spread);
+    const filteredData = tableData.filter(data => data.Spread !== 0)
+    const sortedData = filteredData.sort((a, b) => b.Spread - a.Spread);
 
     // Get the highest spread pair
     const highestSpreadPair = {
