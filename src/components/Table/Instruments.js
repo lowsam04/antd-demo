@@ -23,25 +23,12 @@ const Instruments = (props) => {
       dataIndex: "Bid",
       key: "bid",
       render: (text, record) => {
-        //text = value, record = row, index
-        // console.log("index");
-        // console.log(props.currentBidPrice[index]);
-        // console.log(record);
-        // const curr = props.currentBidPrice[index];
-        // const prev = props.previousBidPrice[index];
-        // const textColor = curr >= prev ? "green" : "red";
-        // return (
-        //   <span style={{ color: textColor }}>
-        //     {curr >= prev ? <CaretUpOutlined /> : <CaretDownOutlined />}{" "}
-        //     {Math.round(curr * 100) / 100}
-        //   </span>
-        // );
         if (text > props.previousBidPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
         }else if (text < props.previousBidPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'red'}}><CaretDownOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'red'}}><CaretDownOutlined />{Number(text).toFixed(2)} </span>)
         }else{
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
         }
       },
     },
@@ -49,26 +36,13 @@ const Instruments = (props) => {
       title: "Sell",
       dataIndex: "Ask",
       key: "ask",
-      // render: (text, record, index) => {
-      //   const curr= props.currentAskPrice[index];
-      //   const prev = props.previousAskPrice[index];
-      //   console.log();
-      //   // return (<span></span>)
-      //   const textColor = curr >= prev ? "green" : "red";
-      //   return (
-      //     <span style={{ color: textColor }}>
-      //       {curr >= prev ? <CaretUpOutlined /> : <CaretDownOutlined />}
-      //       {Math.round(curr * 100) / 100}
-      //     </span>
-      //   );
-      // },
       render: (text, record) => {
         if (text > props.previousAskPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
         }else if (text < props.previousAskPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'red'}}><CaretDownOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'red'}}><CaretDownOutlined />{Number(text).toFixed(2)} </span>)
         }else{
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Math.round(text * 100) / 100} </span>)
+          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
         }
       },
     },

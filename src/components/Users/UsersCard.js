@@ -29,15 +29,12 @@ const UsersCard = () => {
     // get current bid array
     let bidArray = res.map((Data) => Data.Bid);
     setCurrentBidPrice(bidArray);
-    // console.log('this is bidArray');
-    // console.log(bidArray);
+  
 
     // get current sell array
     let askArray = res.map((Data) => Data.Ask);
     setCurrentAskPrice(askArray);
-    // console.log('this is askArray');
-    // console.log(askArray);
-
+ 
     // ======================================Part 4 (Getiing highest and lowest spread pair)====================================================
     // Sort the data based on the spread value
     const filteredData = tableData.filter(data => data.Spread !== 0)
