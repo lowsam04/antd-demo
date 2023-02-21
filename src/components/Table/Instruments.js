@@ -127,7 +127,7 @@ const Instruments = (props) => {
               onSearch={onSearch}
               onChange={onChange}
               style={{
-                width: 200,
+                width: 150,
               }}
             />
           </div>
