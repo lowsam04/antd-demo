@@ -31,7 +31,8 @@ const DUMMY_DATA = [
 
 const dummy = DUMMY_DATA.map((data) => (
   <div
-    className="w-1/4 shadow-lg rounded-lg py-6 bg-white flex justify-between max-[414px]:w-11/12 mx-auto "
+    className="w-1/4 shadow-lg rounded-lg py-6 bg-white flex justify-between 
+    max-[414px]:w-11/12 mx-auto "
     key={data.key}
   >
     <div className="px-6">
@@ -48,7 +49,10 @@ const StatisticCard = () => {
   return (
     <>
       <section id="first-section" className="py-6">
-        <div className="px-2 gap-10 flex container mx-auto max-[414px]:flex-col">
+        <div className="px-2 gap-10 flex container mx-auto 
+        max-[414px]:flex-col 
+        max-[414px]:gap-5
+        max-[414px]:mx-auto">
           {dummy}
         </div>
       </section>

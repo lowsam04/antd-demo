@@ -9,12 +9,10 @@ import { getTableData } from "../../api/tableAPI";
 const UsersCard = () => {
   const [userData, setUserData] = useState({});
   const [tableData, setTableData] = useState(null);
+  const [prevTableData, setPrevTableData] = useState(null);
   const [maxSpread, setMaxSpread] = useState([]);
   const [lowSpread, setLowSpread] = useState([]);
-  const [currentBidPrice, setCurrentBidPrice] = useState([]);
-  const [previousBidPrice, setPreviousBidPrice] = useState([]);
-  const [currentAskPrice, setCurrentAskPrice] = useState([]);
-  const [previousAskPrice, setPreviousAskPrice] = useState([]);
+  const [zeroSpread, setZeroSpread] = useState([]);
 
   const userAPI = async () => {
     let res = await getUserData();
@@ -23,22 +21,35 @@ const UsersCard = () => {
 
   const tableAPI = async () => {
     const res = await getTableData();
-    setTableData(res);
 
-    // ======================================Part 3 (Getiing current bid and ask array dataset)=================================================
-    // get current bid array
-    let bidArray = res.map((Data) => Data.Bid);
-    setCurrentBidPrice(bidArray);
+    const sortedSymbol = res.sort((a,b)=>{
+      const nameA = a.Symbol
+      const nameB = b.Symbol
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    })
   
+    setTableData(sortedSymbol);
 
-    // get current sell array
-    let askArray = res.map((Data) => Data.Ask);
-    setCurrentAskPrice(askArray);
- 
+    // // ======================================Part 3 (Getiing current bid and ask array dataset)
+    // [Optimized to table object, no longer using array]
+    // // get current bid array
+    // let bidArray = res.map((Data) => Data.Bid);
+    // setCurrentBidPrice(bidArray);
+
+    // // get current sell array
+    // let askArray = res.map((Data) => Data.Ask);
+    // setCurrentAskPrice(askArray);
+
     // ======================================Part 4 (Getiing highest and lowest spread pair)====================================================
     // Sort the data based on the spread value
-    const filteredData = tableData.filter(data => data.Spread !== 0)
-    const sortedData = filteredData.sort((a, b) => b.Spread - a.Spread);
+    // const filtredData = tableData.filter((data) => data.Spread !== 0);
+    const sortedData = tableData.sort((a, b) => b.Spread - a.Spread);
 
     // Get the highest spread pair
     const highestSpreadPair = {
@@ -52,8 +63,12 @@ const UsersCard = () => {
       Spread: sortedData[sortedData.length - 1].Spread,
     };
 
+    // Get the zero spreads
+    const zeroSpread = tableData.filter((data) => data.Spread === 0);
+
     setMaxSpread(highestSpreadPair);
     setLowSpread(lowestSpreadPair);
+    setZeroSpread(zeroSpread);
   };
 
   useEffect(() => {
@@ -63,8 +78,7 @@ const UsersCard = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       tableAPI();
-      setPreviousBidPrice(currentBidPrice);
-      setPreviousAskPrice(currentAskPrice);
+      setPrevTableData(tableData);
     }, 1000);
     return () => clearInterval(intervalId);
   }, [tableData]);
@@ -73,20 +87,21 @@ const UsersCard = () => {
     <>
       <section id="second-section">
         <div className="container mx-auto px-2 ">
-          <div className="flex gap-6 max-[414px]:flex-col">
+          <div className="flex gap-6 
+          max-[414px]:flex-col
+          max-[414px]:w-11/12
+          max-[414px]:mx-auto">
             <UserInfo userData={userData} className="w-1/3" />
             <Instruments
               className="w-1/2"
               tableData={tableData}
-              currentBidPrice={currentBidPrice}
-              previousBidPrice={previousBidPrice}
-              currentAskPrice={currentAskPrice}
-              previousAskPrice={previousAskPrice}
+              prevTableData={prevTableData}
             />
             <SpreadTable
               className="w-1/3"
               maxSpread={maxSpread}
               lowSpread={lowSpread}
+              zeroSpread={zeroSpread}
             />
           </div>
         </div>

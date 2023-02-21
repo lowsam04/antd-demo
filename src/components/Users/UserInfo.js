@@ -8,7 +8,8 @@ function UserInfo(props) {
   return (
     <>
       <Card
-        className="w-1/3 shadow-lg rounded-lg bg-white max-[414px]:w-full "
+        className="w-1/3 shadow-lg rounded-lg bg-white 
+        max-[414px]:w-full "
         cover={<img alt="cover" src={img.maskgroup2} />}
       >
         <Meta

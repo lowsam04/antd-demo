@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { Table, Input, Skeleton } from "antd";
-import { CaretUpOutlined, CaretDownOutlined } from "@ant-design/icons";
+import {
+  CaretUpOutlined,
+  CaretDownOutlined,
+  SwapRightOutlined,
+} from "@ant-design/icons";
 
 const { Search } = Input;
 
 const Instruments = (props) => {
   const [searchText, setSearchedText] = useState("");
+
   const columns = [
     {
       title: "Name",
@@ -23,12 +28,32 @@ const Instruments = (props) => {
       dataIndex: "Bid",
       key: "bid",
       render: (text, record) => {
-        if (text > props.previousBidPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
-        }else if (text < props.previousBidPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'red'}}><CaretDownOutlined />{Number(text).toFixed(2)} </span>)
-        }else{
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
+        if (props.prevTableData) {
+          const prevBid = props.prevTableData.find(
+            (data) => data.base === record.base
+          ).Bid;
+          if (text > prevBid) {
+            return (
+              <span style={{ color: "green" }}>
+                <CaretUpOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          } else if (text < prevBid) {
+            return (
+              <span style={{ color: "red" }}>
+                <CaretDownOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          } else {
+            return (
+              <span style={{ color: "blue" }}>
+                <SwapRightOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          }
         }
       },
     },
@@ -37,12 +62,32 @@ const Instruments = (props) => {
       dataIndex: "Ask",
       key: "ask",
       render: (text, record) => {
-        if (text > props.previousAskPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
-        }else if (text < props.previousAskPrice[props.tableData.indexOf(record)]){
-          return (<span style={{color: 'red'}}><CaretDownOutlined />{Number(text).toFixed(2)} </span>)
-        }else{
-          return (<span style={{color: 'green'}}><CaretUpOutlined />{Number(text).toFixed(2)} </span>)
+        if (props.prevTableData) {
+          const prevAsk = props.prevTableData.find(
+            (data) => data.base === record.base
+          ).Ask;
+          if (text > prevAsk) {
+            return (
+              <span style={{ color: "green" }}>
+                <CaretUpOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          } else if (text < prevAsk) {
+            return (
+              <span style={{ color: "red" }}>
+                <CaretDownOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          } else {
+            return (
+              <span style={{ color: "blue" }}>
+                <SwapRightOutlined />
+                {Number(text).toFixed(2)}{" "}
+              </span>
+            );
+          }
         }
       },
     },
@@ -68,7 +113,12 @@ const Instruments = (props) => {
 
   return (
     <>
-      <div className="w-1/2 shadow-lg rounded-lg bg-white max-[414px]:w-full">
+      <div
+        className="w-1/2 shadow-lg rounded-lg bg-white 
+          max-[414px]:flex-col
+          max-[414px]:w-full
+          max-[414px]:mx-auto"
+      >
         <div className="flex justify-between p-4">
           <h2 className="text-2xl font-bold">Instruments</h2>
           <div className="p-2">
@@ -82,7 +132,7 @@ const Instruments = (props) => {
             />
           </div>
         </div>
-        {!props.tableData ? (
+        {!props.prevTableData ? (
           <Skeleton
             style={{
               width: "90%",
